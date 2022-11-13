@@ -1,3 +1,5 @@
+numpy
+pandas
 appdirs==1.4.4
 Brotli==1.0.9
 certifi==2022.9.24
@@ -19,8 +21,6 @@ Jinja2==3.1.2
 MarkupSafe==2.1.1
 more-itertools==9.0.0
 multitasking==0.0.11
-numpy
-pandas
 plotly==5.11.0
 python-dateutil==2.8.2
 pytz==2022.6
