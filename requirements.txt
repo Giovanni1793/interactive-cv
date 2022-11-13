@@ -19,8 +19,8 @@ Jinja2==3.1.2
 MarkupSafe==2.1.1
 more-itertools==9.0.0
 multitasking==0.0.11
-numpy==1.23.4
-pandas==1.4.0
+numpy
+pandas
 plotly==5.11.0
 python-dateutil==2.8.2
 pytz==2022.6
