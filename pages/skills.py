@@ -12,7 +12,7 @@ dash.register_page(__name__, order=2)
 
 it = {'IT':['Python','C++','C#','VBA','Lexifi'],'score':[6,2,3,5,6]}
 language = {'languages':['English','Italian','French','German'],'score':[6,6,4,2]}
-it_profile = {'it':['Front-end','Back-end','Api','Algorithms','Machine Learning'],'score':[5,4,3,4,4]}
+it_profile = {'it':['Front-end','Back-end','Api','Algorithms','ML','Docker'],'score':[5,4,3,4,4,3]}
 
 finance = {'fields':['Derivatives','Structured Products','Stochastic Calculus','Portfolio Management','Corporate Finance','General Finance'],'score':[6,6,5,3,4,3]}
 
