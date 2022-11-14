@@ -249,7 +249,7 @@ def render_content(tab):
                                 With $$f$$ reflecting the cost of funding the equity purchase and carrying it. If we assume proportional dividends and no jumps then the risk-neutral dynamics of an asset can be written as below:\n
                                 $$dS_{t}/S_{t} = f(t)dt +\sigma(t) dW_{t}$$\n
                                 Or\n
-                                $$dS_{t}/S_{t} = \frac{\partial{F(0,t)/S_{0}}}{\partial{t}}dt+\sigma(t)dW_{t}$$ \n
+                                $$dS_{t}/S_{t} ={\partial{F(0,t)/S_{0}}\over \partial{t}}dt+\sigma(t)dW_{t}$$ \n
                                 So, the investor can see how the forward curve indeed intervenes. therefore, the market forward prices could be interpreted as a way of extracting the implied funding cost and hence (partly) marking your model to the market.
                                 This is independent of the volatility model used $$\sigma(t)$$ (it could be BS, Heston, Local volatility à la Dupire).
                                 Mathematically, this is also understandable as follows: the forward curve characterises the first moment of $$S_{t}$$under the risk-neutral measure knowing the current information, so it will have an impact the pricing since it's part of the characterisation of the pdf of $$S_{t}$$\n
