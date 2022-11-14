@@ -148,7 +148,7 @@ def render_content(tab):
                                     at-the-money option pricing is the following formula
                                     (assuming, flat forward, no skew etc...):
 
-                                    $$0.4 */sigma * /sqrt{T}$$
+                                    $$0.4 *\sigma * \sqrt{T}$$
 
                                     Below the reader can find some ATM call option quotes priced using BS model assuming 4% p.a. constant interest rates and 5% p.a. constant dividend yield to check how option prices change with respect to implied volatility.
 
