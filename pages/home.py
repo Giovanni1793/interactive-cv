@@ -12,8 +12,8 @@ layout = html.Div([
     dcc.Markdown('### Professional Summary', style={'textAlign': 'center'}),
     html.Hr(),
     dcc.Markdown('Cross Asset Structurer with focus on Structured Products and Derivatives. \n'
-                 'Hands on experience in structuring, dealing, software engineering, pricing and automatization of processes. \n'
-                 'Strategic thinker, able to sinergically integrate technical skills and a business oriented approach.',
+                 'Hands on experience in structuring, dealing, software engineering, pricing, and automatization of processes. \n'
+                 'Strategic thinker, able to synergically integrate technical skills and a business-oriented  approach.',
                  style={'textAlign': 'center', 'white-space': 'pre'}),
 
     
@@ -37,7 +37,7 @@ layout = html.Div([
                 html.Li('Managing the structured products book of the company on a day-to-day basis (pricings, life-cycle management, booking, quality checks)'),
                 html.Li('Supporting the head of financial engineering on the idea generation of trading ideas among different asset classes using structured products'),
                 html.Li('Developed various web applications and in-house tools for various purposes (Automatic checks, documentation, marketing templating, pricing infrastructure)'),
-                html.Li('Developed various quantitative tools for studies, backtesting, optimization as well as integrations with pricing engine.')
+                html.Li('Developed various quantitative tools for studies, back-testing, optimization as well as integrations with pricing engine.')
             ])
         ], width=5)
     ], justify='center'),
@@ -60,7 +60,7 @@ layout = html.Div([
                 html.Li(
                     'Responsible for post trade-monitoring and settlement as well as drafting of documentation'),
                 html.Li(
-                    'Responsible for drafting of marketing materials,termsheets, as well as brochures')
+                    'Responsible for drafting of marketing materials, termsheets, as well as brochures')
             ])
         ], width=5)
     ], justify='center'),
@@ -124,13 +124,13 @@ layout = html.Div([
             dcc.Markdown('''
             * Chess
             * Running
-            * Baskteball
+            * Basketball
             ''')
         ], width={"size": 3, "offset": 1}),
         dbc.Col([
             dcc.Markdown('''
             * Gaming
-            * Phylosofy
+            * Philosophy
             * Software Design
             ''')
         ], width=3)
