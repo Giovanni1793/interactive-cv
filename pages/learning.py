@@ -89,18 +89,18 @@ def render_content(tab):
                                     The product can be structured in different ways and has different names in relation to the
                                     optionality embedded, however the main drivers and its risk can be decomposed easily as follow:\n
                                     - Client is long a Zero-Coupon-Bond\n
-                                    - Client is long option strategies (calls or put) vanila or exotic\n
+                                    - Client is long option strategies (calls or put) vanilla or exotic\n
                                     """
                                 ), html.Hr(),
                                 dcc.Markdown(
                                     """
-                                    The Zero Coupon Bond:\n
+                                    The Zero-Coupon-Bond:\n
                                     Capital Protected Notes are issued by banks, are funded and therefore are highly dependent on interest rates.
                                     In particular the components that enter in play when computing the fair value of the ZCB are:\n
-                                    - The risk free rate\n
+                                    - The risk-free rate\n
                                     - The issuer funding, driven also by the credit risk profile of the issuer.\n
 
-                                    The Zero Coupon Bond Risks:\n
+                                    The Zero-Coupon-Bond Risks:\n
                                     - The ZCB is issued at discount (assuming positive rates) and is exposed to interest rates movement.\n
                                     - The ZCB has a duration comparable to the maturity of the product, the longer the maturity, the higher the price impact.\n
                                     - In an environment where rates are volatile, the investor should be mindful of the above duration sensitivity, as sometimes rates move can lead to counterintuitive price movements, if looked together with the optionality.
@@ -116,42 +116,45 @@ def render_content(tab):
                                     """
                                     The Optionality:\n
                                     As seen above, the main driver for understanding if we can afford or not capital protection is mainly driven by the interest rates.
-                                    However once we know how much we can spend, it is important to understand how we can maximise the option component according to our needs.
+                                    However, once we know how much we can spend, it is important to understand how we can maximise the option component according to our needs.
 
-                                    It is not the purpose of this chapter to enter in details on all the optionality that exists and we will focus mostly on "vanilla" however the below structures
+                                    It is not the purpose of this chapter to enter in detail on all the optionality that exists and we will focus mostly on "vanilla" however the below structures
                                     deserve to be mentioned due their popularity among practitioners and we will be object of discussion in other chapters:
                                     - Shark Notes (Zero Coupon Bond + Up&Out call option w/wo rebate)
                                     - Capital Protected Digital (Zero Coupon Bond + strip of digitals)
-                                    - Capital Protected Twin Win
-                                    - Capita Protected Double Knock-Out
+                                    - Capital Protected Twin Win (Zero Coupon Bond + straddle or strangle)
+                                    - Capita Protected Double Knock-Out (Zero Coupon Bond + straddle or strangle with UP&OUT/DOWN&OUT Knock-out)
                                     - Autocallable/Issuer Callable Capital Protected Participation Note
+                                    
+                                    Now that we have our base, we need to decide on what to spend the rest of the money.
 
-                                    So what do we buy? We buy vanilla calls, call spreads or a put?..
+                                    So, what do we buy? We buy vanilla calls, call spreads or a put?..
 
                                     The optionality depends mainly on 2 main market observable drivers:
+                                    
                                     - The forward of the underlier
                                     - The implied volatility of the underlier
 
-                                    Altought option price depends also on the time to maturity and on the moneyness, the above parameters will give us a better idea how different underliers compare to each other.
+                                    Although option price depends also on the time to maturity and on the moneyness, the above parameters will give us a better idea how different underliers compare to each other.
 
-                                    The forward of an underlier depends on the carry and in particular (for equities):
+                                    The forward of an underlier depends on the carry and (for equities):
                                     - long rates
-                                    - short dividends (descrete.. important when pricing)
+                                    - short dividends (discrete modelled.. important when pricing)
 
-                                    In general, the higher the carry, the higher the expected value of the underlier in the future, and vicevera and therefore, assuming same levels of implied volatility, 
+                                    In general, the higher the carry, the higher the expected value of the underlier in the future, and therefore, assuming same levels of implied volatility, 
                                     call options on lower forward underliers will be cheaper and puts will be more expensive.
 
                                     The higher the implied volatility the higher will be the price of the option, usually a rule of thumb use to proxy prices for
-                                    at-the-money option pricng is the following formula
-                                    (assuming, flat forward, no skew ecc...):
+                                    at-the-money option pricing is the following formula
+                                    (assuming, flat forward, no skew etc...):
 
-                                    0.4 x sigma x sqrt(T)
+                                    $$0.4 */sigma * /sqrt{T}$$
 
-                                    Below some ATM call option quotes priced using BS model assuming 4% constat interest rates and 5% constant dividend rates to check how option prices change with respect to implied volatility.
+                                    Below the reader can find some ATM call option quotes priced using BS model assuming 4% p.a. constant interest rates and 5% p.a. constant dividend yield to check how option prices change with respect to implied volatility.
 
                         
                                     """
-                                ), html.Hr(),
+                                ,mathjax=True), html.Hr(),
                                 dcc.Graph( figure = options),
                                  html.Hr(),
 
@@ -159,16 +162,16 @@ def render_content(tab):
                                     """
                                     Will a cap cheap the optionality? YES BUT:\n
 
-                                    Usually, in order to be able to afford more optionality the investor might decide to cap the exposure and decide to go for a call spread.
+                                    Usually, to be able to afford more optionality the investor might decide to cap the exposure and decide to go for a call spread.
                                     Nothing bad with that BUT the investor should be mindful about the mark-to-market trade off of such product.
 
-                                    Selling an option, altough OTM is in fact going to act as a delta tranquilliser. The investor should be mindful that the product will underperform the underlier
+                                    Selling an option, although OTM is in fact going to act as a delta tranquilliser. The investor should be mindful that the product will underperform the underlier
                                     should the underlier rally above the cap at maturity.
                                     
                                     In fact, due to the short call position, the product will have a cap on the delta as the spot rallies, and especially for longer dated product, the product might 
                                     start earning theta (with the short option entering moneyness) causing the option strategy to quote below intrinsic.
 
-                                    The above recipe, mixed in together with ralling interest rates can raise questions from the investor on the product's performance.
+                                    The above recipe, mixed in together with rallying interest rates can raise questions from the investor on the product's performance.
 
     
 
