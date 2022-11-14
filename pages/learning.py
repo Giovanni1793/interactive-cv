@@ -229,35 +229,32 @@ def render_content(tab):
                     html.Hr(),
                     dcc.Markdown(
                                     """
-When talking about options or SPs you will always hear me talking about the forward of the underlier but what is the Forward?
-Under risk neutral probability Q the expectation of the asset S can be written as below:
-$$ E_{Q}(S_{T}) = S_{0}e^{rT} $$
-Forward contract: contract to buy a stock at time T at a price K and can be written as per below:
-$$F(0,K,T) = e^{-rT} E(S(T) - K) $$
-Expanding:
-$$F(0,K,T) = e^{-rT} E_{Q}(S_{T}) - K e^{-rT} = S_{0} - K e^{-rT}$$
-The reader can easily proof that $$F(0,K,T) > S_{0} - K e^{-rT}$$ as well as $$F(0,K,T) < S_{0} - K e^{-rT}$$ would lead to arbitrage strategy.
-The above definition of forward is however incomplete as in the market we observe assets generating income (dividends) and the possibility to place the stock in repo.
-The forward can therefore be written in presence of dividends and repos for stocks. The non-arbitrage relation would still hold:
-$$ E_{Q}(S_{T}) = S_{0}e^{rT}  $$
-$$ E_{Q}(S_{T}) = S_{0}e^{(r -q)T}  $$
-$$ E_{Q}(S_{T}) = S_{0}e^{(r-q-b)T}  $$
-Forwards deliver a payout linear in the future value of the underlying asset. Hence, they can be replicated statically by a simple cash & carry replication strategy.
-But how the forward does relate to option pricing?
-Let’s now summarise a bit and let’s rewrite the above as below:
-$$ F(0,T) = S_{0}e^{fT}$$
-With $$f$$ reflecting the cost of funding the equity purchase and carrying it. If we assume proportional dividends and no jumps then the risk-neutral dynamics of an asset can be written as below:
-$$ dS_{t}/S_{t} = f(t)dt +\sigma(t) dW_{t}$$
-Or
-$$ dS_{t}/S_{t} = \frac{\partial F(0,t)/S_{0}}{\partial{t}}dt +\sigma(t) dW_{t}$$
-So, the investor can see how the forward curve indeed intervenes. therefore, the market forward prices could be interpreted as a way of extracting the implied funding cost and hence (partly) marking your model to the market. This is independent of the volatility model used $$\sigma(t)$$ (it could be BS, Heston, Local volatility à la Dupire).
-Mathematically, this is also understandable as follows: the forward curve characterises the first moment of $$S_{t}$$under the risk-neutral measure knowing the current information, so obviously it will impact  the pricing since it's part of the characterisation of the pdf of $$S_{t}$$ If you assume BS, then adding the volatility surface to the forward curve gives you the full representation of the future distributions of $$S_{t}|S_{0}$$ under the risk-neutral measure. 
+                                When talking about options or SPs you will always hear me talking about the forward of the underlier but what is the Forward?
+                                Under risk neutral probability Q the expectation of the asset S can be written as below:\n
+                                $$E_{Q}(S_{T}) = S_{0}e^{rT}$$
+                                Forward contract: contract to buy a stock at time T at a price K and can be written as per below:\n
+                                $$F(0,K,T) = e^{-rT} E(S(T) - K)$$
+                                Expanding:\n
+                                $$F(0,K,T) = e^{-rT} E_{Q}(S_{T}) - K e^{-rT} = S_{0} - K e^{-rT}$$ \n
+                                The reader can easily proof that $$F(0,K,T) > S_{0} - K e^{-rT}$$ as well as $$F(0,K,T) < S_{0} - K e^{-rT}$$ would lead to arbitrage strategy.\n
+                                The above definition of forward is however incomplete as in the market we observe assets generating income (dividends) and the possibility to place the stock in repo.
+                                The forward can therefore be written in presence of dividends and repos for stocks. The non-arbitrage relation would still hold:\n
+                                $$E_{Q}(S_{T}) = S_{0}e^{rT}$$ \n
+                                $$E_{Q}(S_{T}) = S_{0}e^{(r -q)T}$$ \n
+                                $$E_{Q}(S_{T}) = S_{0}e^{(r-q-b)T}$$ \n
+                                Forwards deliver a payout linear in the future value of the underlying asset. Hence, they can be replicated statically by a simple cash & carry replication strategy.
+                                But how the forward does relate to option pricing?\n
+                                Let’s now summarise a bit and let’s rewrite the above as below:
+                                $$F(0,T) = S_{0}e^{fT}$$
+                                With $$f$$ reflecting the cost of funding the equity purchase and carrying it. If we assume proportional dividends and no jumps then the risk-neutral dynamics of an asset can be written as below:
+                                $$ dS_{t}/S_{t} = f(t)dt +\sigma(t) dW_{t}$$
+                                Or
+                                $$ dS_{t}/S_{t} = \frac{\partial F(0,t)/S_{0}}{\partial{t}}dt +\sigma(t) dW_{t}$$
+                                So, the investor can see how the forward curve indeed intervenes. therefore, the market forward prices could be interpreted as a way of extracting the implied funding cost and hence (partly) marking your model to the market. This is independent of the volatility model used $$\sigma(t)$$ (it could be BS, Heston, Local volatility à la Dupire).
+                                Mathematically, this is also understandable as follows: the forward curve characterises the first moment of $$S_{t}$$under the risk-neutral measure knowing the current information, so obviously it will impact  the pricing since it's part of the characterisation of the pdf of $$S_{t}$$ If you assume BS, then adding the volatility surface to the forward curve gives you the full representation of the future distributions of $$S_{t}|S_{0}$$ under the risk-neutral measure. 
 
-Option prices do not depend only from the forward but also from the second moment of the distribution of S(T)(The implied Volatility)
-
-                        
-                                    """
-                                ,mathjax=True),])
+                                Option prices do not depend only from the forward but also from the second moment of the distribution of S(T)(The implied Volatility)
+                                """,mathjax=True)])
 
 @callback(
     Output("out", "figure"),
