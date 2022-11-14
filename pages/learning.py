@@ -221,39 +221,7 @@ def render_content(tab):
 
                     dcc.Graph(id = 'out')
         ])
-@callback(
-    Output("out", "figure"),
-    Input("volatility", "value"),
-    Input("rates", "value"),
-    Input("dividend", "value"),
-    Input("option-type", "value"),
-)
-def update_graph_card(vol,r,d,type):
-    if len(vol) == 0 or len(r) ==0 or len(d)==0 or len(type)==0 :
-        return dash.no_update
-    else:
-        tenors = [0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.5,3,4,5]
-        zcb = []
-        pr = []
-        if type[0] == 'call':
-            for tenor in tenors:
-                pr.append(black_scholes(1,1,1,tenor,vol[0],r[0],d[0]))
-                zcb.append(compute_ZCB(r[0],0.002,tenor))
-        else:
-            for tenor in tenors:
-                pr.append(black_scholes(1,1,1,tenor,vol[0],r[0],d[0]))
-
-        cpn = pd.DataFrame()
-        cpn['tenor (years)'] = tenors
-        cpn['ZCB'] = zcb
-        cpn['option'] = pr
-        cpn['capital protected note'] =  cpn['option'] + cpn['ZCB']
-
-        fig = px.line(cpn, x="tenor (years)", y=cpn.columns,
-                      labels={"variable": "prices",'value':'prices'}).update_traces(mode='lines+markers')
-        return fig
-
-        ])
+       
     elif tab == 'tab-2-example-graph':
         return html.Div([
             html.H3('The Forward'),
@@ -290,3 +258,35 @@ Option prices do not depend only from the forward but also from the second momen
                         
                                     """
                                 ,mathjax=True),])
+
+@callback(
+    Output("out", "figure"),
+    Input("volatility", "value"),
+    Input("rates", "value"),
+    Input("dividend", "value"),
+    Input("option-type", "value"),
+)
+def update_graph_card(vol,r,d,type):
+    if len(vol) == 0 or len(r) ==0 or len(d)==0 or len(type)==0 :
+        return dash.no_update
+    else:
+        tenors = [0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.5,3,4,5]
+        zcb = []
+        pr = []
+        if type[0] == 'call':
+            for tenor in tenors:
+                pr.append(black_scholes(1,1,1,tenor,vol[0],r[0],d[0]))
+                zcb.append(compute_ZCB(r[0],0.002,tenor))
+        else:
+            for tenor in tenors:
+                pr.append(black_scholes(1,1,1,tenor,vol[0],r[0],d[0]))
+
+        cpn = pd.DataFrame()
+        cpn['tenor (years)'] = tenors
+        cpn['ZCB'] = zcb
+        cpn['option'] = pr
+        cpn['capital protected note'] =  cpn['option'] + cpn['ZCB']
+
+        fig = px.line(cpn, x="tenor (years)", y=cpn.columns,
+                      labels={"variable": "prices",'value':'prices'}).update_traces(mode='lines+markers')
+        return fig
