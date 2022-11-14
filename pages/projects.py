@@ -55,10 +55,10 @@ def layout():
                 [
                     html.H3('Backtester DEMO', style={'textAlign':'center'}),
                     html.Hr(),
-                    dcc.Markdown('This is an example of a simple demo backtester for SPs. The underliers used as example here are Apple, Microsoft and Google.\n'
+                    dcc.Markdown('This is an example of a simple demo back-tester for SPs. The underliers used as example here are Apple, Microsoft, and Google.\n'
                  'In this demo the user can select only product tenor, basket type and the type of structure \n'
-                 'In general is possible (as an example) to extend the app via:\n' 
-                 '- Giving the user the possibility to select underliers by retrieving data via a API\n'
+                 'In general, is possible (as an example) to extend the app via:\n' 
+                 '- Giving the user the possibility to select underliers by retrieving data via an API\n'
                  '- Increasing the number of parameters in control of the user\n'
                  '- increasing the variety of payoff\n',
 
