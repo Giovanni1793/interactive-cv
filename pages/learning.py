@@ -244,14 +244,16 @@ def render_content(tab):
                                 $$E_{Q}(S_{T}) = S_{0}e^{(r-q-b)T}$$ \n
                                 Forwards deliver a payout linear in the future value of the underlying asset. Hence, they can be replicated statically by a simple cash & carry replication strategy.
                                 But how the forward does relate to option pricing?\n
-                                Let’s now summarise a bit and let’s rewrite the above as below:
-                                $$F(0,T) = S_{0}e^{fT}$$
-                                With $$f$$ reflecting the cost of funding the equity purchase and carrying it. If we assume proportional dividends and no jumps then the risk-neutral dynamics of an asset can be written as below:
-                                $$ dS_{t}/S_{t} = f(t)dt +\sigma(t) dW_{t}$$
-                                Or
-                                $$ dS_{t}/S_{t} = \frac{\partial F(0,t)/S_{0}}{\partial{t}}dt +\sigma(t) dW_{t}$$
-                                So, the investor can see how the forward curve indeed intervenes. therefore, the market forward prices could be interpreted as a way of extracting the implied funding cost and hence (partly) marking your model to the market. This is independent of the volatility model used $$\sigma(t)$$ (it could be BS, Heston, Local volatility à la Dupire).
-                                Mathematically, this is also understandable as follows: the forward curve characterises the first moment of $$S_{t}$$under the risk-neutral measure knowing the current information, so obviously it will impact  the pricing since it's part of the characterisation of the pdf of $$S_{t}$$ If you assume BS, then adding the volatility surface to the forward curve gives you the full representation of the future distributions of $$S_{t}|S_{0}$$ under the risk-neutral measure. 
+                                Let’s now summarise a bit and let’s rewrite the above as below:\n
+                                $$F(0,T) = S_{0}e^{fT}$$\n
+                                With $$f$$ reflecting the cost of funding the equity purchase and carrying it. If we assume proportional dividends and no jumps then the risk-neutral dynamics of an asset can be written as below:\n
+                                $$dS_{t}/S_{t} = f(t)dt +\sigma(t) dW_{t}$$\n
+                                Or\n
+                                $$dS_{t}/S_{t} = \frac{\partial F(0,t)/S_{0}}{\partial{t}}dt +\sigma(t) dW_{t}$$\n
+                                So, the investor can see how the forward curve indeed intervenes. therefore, the market forward prices could be interpreted as a way of extracting the implied funding cost and hence (partly) marking your model to the market.
+                                This is independent of the volatility model used $$\sigma(t)$$ (it could be BS, Heston, Local volatility à la Dupire).
+                                Mathematically, this is also understandable as follows: the forward curve characterises the first moment of $$S_{t}$$under the risk-neutral measure knowing the current information, so it will have an impact the pricing since it's part of the characterisation of the pdf of $$S_{t}$$\n
+                                If you assume BS, then adding the volatility surface to the forward curve gives you the full representation of the future distributions of $$S_{t}|S_{0}$$ under the risk-neutral measure. 
 
                                 Option prices do not depend only from the forward but also from the second moment of the distribution of S(T)(The implied Volatility)
                                 """,mathjax=True)])
