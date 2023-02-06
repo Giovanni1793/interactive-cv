@@ -1,0 +1,14 @@
+#menu .Select-control {
+    background-color: #4c5c6c!important;
+    color:white;
+  }
+
+#menu .Select-menu-outer {
+    background-color: #4c5c6c;
+    color: white;
+}
+
+/* changes the text color of input box */
+#menu .Select-value-label {
+    color: white) !important;
+}

@@ -7,39 +7,52 @@ from .sidebar import sidebar
 #import quandl
 from datetime import datetime
 import copy
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "products"))
+from backtest import *
+from capital_protected_note import *
 
-dash.register_page(__name__, title='Backtester Demo', order=1)
+dash.register_page(__name__, title='Backtester Demo', order=2)
 
-today = datetime.today()
 
-df = pd.read_csv('assets/data.csv')
+df = pd.read_csv('assets/tickers_filtered.csv')
+
+names = df['Name'].to_list()
+
+my_button_style = {'background-color': '#e1e1e1',
+                      'color': '#323e54',
+                      'height': '50px',
+                      'width': '20%',
+                      'textAlign':'center',
+                      #'margin-top': '3%',
+                      'margin-left': '40%',
+                      'fontWeight': 'bold',
+                      'font-family':'Arial, sans-serif',
+                      'fontSize':15,
+                      }
+
+
+def get_yahoo_ticker(data,names):
+
+    filtered = data[data['Name'].isin(names)].drop_duplicates('Name',keep = 'first')
+    tickers = filtered['Ticker'].to_list()
+    return tickers
 # initialize parameters
-start = datetime(2015, 1, 1)
 
-df['Date'] = df['Date'].apply(lambda x: datetime.strptime(x,'%d/%m/%Y'))
+map_capped = {'yes':True,'no':False}
 
-end = today
 """
 df = quandl.get(['NYSE/AAPL','NASDAQ/MSFT'], start_date = start,
-                end_date = end, 
+                end_date = end,
                 authtoken = 'DTgFTvhLszbZ-oWbxgtk')
 
 """
-print(df.head())
-
-MAPPING = {
-    '3months':'3m',
-    '6months':'6m',
-    '1year':'1y',
-    'single':'s',
-    'basket':'b',
-    'worst-of':'wo',
-    'best-of':'bo',
-    'tracker':'tracker',
-    'capital protected note':'cpn',
-    'ATM call':'atmc',
-    'ATM Put':'atmp'
-}
+progress = html.Div(
+                    [
+                        dcc.Interval(id="progress-interval", n_intervals=0, interval=500),
+                        dbc.Progress(id="progress"),
+                    ]
+                )
 
 dash.register_page(__name__)
 def layout():
@@ -55,66 +68,185 @@ def layout():
                 [
                     html.H3('Backtester DEMO', style={'textAlign':'center'}),
                     html.Hr(),
-                    dcc.Markdown('This is an example of a simple demo back-tester for SPs. The underliers used as example here are Apple, Microsoft, and Google.\n'
-                 'In this demo the user can select only product tenor, basket type and the type of structure \n'
-                 'In general, is possible (as an example) to extend the app via:\n' 
-                 '- Giving the user the possibility to select underliers by retrieving data via an API\n'
+                    dcc.Markdown('This is an example of a simple demo back-tester for SPs. The data are linked to Yahoo finance API\n'
+                 'In this demo the user can select only the capital protected note structure \n'
+                 'In general, is possible (as an example) to extend the app via:\n'
+                 '- Increasing the number of outputs\n'
+                 '- Giving the user the possibility to download results in a spreadsheet or in other formats\n'
                  '- Increasing the number of parameters in control of the user\n'
                  '- increasing the variety of payoff\n',
 
                  style={'textAlign': 'center', 'white-space': 'pre'}),
-                 html.Div(['tenor',
-                    dcc.Dropdown(id='tenor',
-                                 options=['3months','6months','1year'],
-                                 value=["1year"],
-                                 multi=True,
+
+                 html.Div([
+
+
+                 html.Div(['tenor backtest (in years)',
+                    dcc.Dropdown(id='backtest-tenor',
+                                 options=[i for i in range(0,21)],
+                                 value=[],
+                                 multi=False,
                                  style={'color':'black'}
-                                 ),]),
-                                 html.Div(['basket type',
-                    dcc.Dropdown(id='und_type',
-                                 options=['basket','worst-of','best-of'],
-                                 value=["worst-of"],
-                                 multi=True,
+                                 ),],style = {'width':'33.33%'}),
+
+                html.Div(['Underliers',
+                   dcc.Dropdown(id='underlyings',
+                                 options=[
+                {"label": i, "value": i }
+                for i in names[0:5000]
+                ],
+
+                                value=[],
+                                multi=True,
+                                style={'color':'black'}
+                                ),],style = {'width':'33.33%'}),
+
+                 html.Div(['product tenor (in months)',
+                    dcc.Dropdown(id='product-tenor',
+                                 options=[3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60],
+                                 value=[],
+                                 multi=False,
                                  style={'color':'black'}
-                                 ),]),
-                                 html.Div(['product type',
+                                 ),],style = {'width':'33.33%'}),
+
+                                  ], style = {'display':'flex','width':'100%'}),
+
+                html.Div([
+
+                    html.Div(['basket type',
+                       dcc.Dropdown(id='basket-type',
+                                    options=['basket','worst-of','best-of'],
+                                    value=[],
+                                    multi=False,
+                                    style={'color':'black'}
+                                    ),],style = {'width':'25.00%'}),
+                        html.Div(['product type',
                     dcc.Dropdown(id='product-type',
-                                 options=['tracker','capital protected note','ATM call','ATM Put'],
-                                 value=["tracker"],
-                                 multi=True,
+                                 options=['capital protected note'],
+                                 value=['capital protected note'],
+                                 multi=False,
                                  style={'color':'black'}
-                                 ),]),
+                                 ),],style = {'width':'25.00%'}),
+
+
+                        html.Div(['strike',
+                    dcc.Dropdown(id='strike',
+                                 options= [i for i in range(0,151)],
+                                 value=[],
+                                 multi=False,
+                                 style={'color':'black'}
+                                 ),],style = {'width':'25.00%'}),
+                                 html.Div(['capital protection',
+                    dcc.Dropdown(id='capital-protection',
+                                 options= [i for i in range(0,151)],
+                                 value=[100],
+                                 multi=False,
+                                 style={'color':'black'}
+                                 ),],style = {'width':'25.00%'}),
+                                  ], style = {'display':'flex'}),
+                        html.Div([
+                                 html.Div(['leverage',
+                    dcc.Dropdown(id='leverage',
+                                 options= [i for i in range(0,500)],
+                                 value=[],
+                                 multi=False,
+                                 style={'color':'black'}
+                                 ),],style = {'width':'33.33%'}),
+                    html.Div(['capped',
+                    dcc.Dropdown(id='capped',
+                                 options= ['yes','no'],
+                                 value=[],
+                                 multi=False,
+                                 style={'color':'black'}
+                                 ),],style = {'width':'33.33%'}),
+                        html.Div(['cap level',
+                    dcc.Dropdown(id='cap-level',
+                                 options= [i for i in range(0,151)],
+                                 value=[],
+                                 multi=False,
+                                 style={'color':'black'}
+                                 ),],style = {'width':'33.33%'}),
+                                  ], style = {'display':'flex'}),
                     html.Hr(),
-                    dcc.Graph(id='line_chart-3', figure={}),
+
+                     html.Div([
+            html.Button('lunch backtest', id='backtest', n_clicks=0, style = my_button_style),]),
+                    html.Hr(),
+
+
+                    html.Div([
+                    dcc.Graph(id='payoff', figure={}),
+                    dcc.Graph(id='payoff-backtest', figure={}),
+                    dcc.Graph(id='distribution', figure={}),
+                    ])
+
 
                 ], xs=8, sm=8, md=10, lg=10, xl=10, xxl=10)
         ]
     )
 ])
 
+
+
+
+
+
+
 @callback(
-    Output("line_chart-3", "figure"),
-    Input("tenor", "value"),
-    Input("und_type", "value"),
-    Input("product-type", "value")
+    Output("payoff", "figure"),
+    Output("payoff-backtest", "figure"),
+    Output("distribution", "figure"),
+    Input("backtest", "n_clicks"),
+    State("backtest-tenor", "value"),
+    State("underlyings", "value"),
+    State("product-tenor", "value"),
+    State("basket-type", "value"),
+    State('strike','value'),
+    State("capital-protection", "value"),
+    State("leverage", "value"),
+    State("capped", "value"),
+    State("cap-level", "value"),
 
 )
-def update_graph_card(tenor,und,product):
-    if (len(tenor) == 0) or (len(und)== 0) or (len(product)==0):
-        return dash.no_update
-    else:
-        tenor = MAPPING[tenor[0]]
-        und = MAPPING[und[0]]
-        product = MAPPING[product[0]]
+def filter_data(_,backtest_tenor,underlyings,product_tenor,basket_type,strike,capital_protection,leverage,capped,cap_level):
+    if _ is None:
+        raise PreventUpdate
 
-        dataf  = copy.deepcopy(df)
+    print(product_tenor)
+    print(float(product_tenor))
 
-        filt = und+tenor+product
+    product = CapitalProtectedNote(
 
-        df_filtered = dataf[['Date',filt]].sort_values('Date')
-        df_filtered = df_filtered.dropna()
-        df_filtered[filt] = df_filtered[filt].apply(lambda x: float(x))
-        print(df_filtered)
-        fig = px.line(df_filtered, x="Date", y=filt,
-                      labels={filt: "Backtest Redemption", 'Date':'Aquisition Date'})
-        return fig
+    underlyings = get_yahoo_ticker(df,underlyings),
+    maturity = float(product_tenor)/12,
+    currency = 'USD',
+    strike = strike,
+    basket_type = basket_type,
+    capital_protection = capital_protection,
+    leverage = leverage/100,
+    capped = map_capped[capped],
+    cap_level = cap_level,
+    backtest_tenor = backtest_tenor
+    )
+
+
+
+    payoff_diagram  = product.payoff_diagram()[1]
+    backtest_payoff  = product.backtest()[2]
+    backtest_distribution  = product.backtest()[3]
+
+
+    return payoff_diagram, backtest_payoff , backtest_distribution
+
+"""
+@callback(
+    [Output("progress", "value"), Output("progress", "label")],
+    [Input("progress-interval", "n_intervals")],
+)
+def update_progress(n):
+    # check progress of some background process, in this example we'll just
+    # use n_intervals constrained to be in 0-100
+    progress = min(n % 110, 100)
+    # only add text after 5% progress to ensure text isn't squashed too much
+    return progress, f"{progress} %" if progress >= 5 else ""
+"""

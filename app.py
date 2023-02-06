@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 
 app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SUPERHERO])
 
-server = app.server
+#server = app.server
 header = dbc.Navbar(
     dbc.Container(
         [
@@ -26,4 +26,4 @@ header = dbc.Navbar(
 app.layout = dbc.Container([header, dash.page_container], fluid=False)
 
 if __name__ == '__main__':
-	app.run_server(debug = False)
+	app.run_server(debug = True)
