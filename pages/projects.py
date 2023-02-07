@@ -170,7 +170,7 @@ def layout():
                     html.Hr(),
 
                      html.Div([
-            html.Button('lunch backtest', id='backtest', n_clicks=0, style = my_button_style),]),
+            html.Button('launch backtest', id='backtest', n_clicks=0, style = my_button_style),]),
                     html.Hr(),
 
 
